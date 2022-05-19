@@ -33,7 +33,7 @@ async function checkToken(token) {
 										response: token
 								}
 						}, (err, rsp, body) => {
-								if (rsp.status === 200) {
+								if (rsp.statusCode === 200) {
 										let data = JSON.parse(body);
 										if (data.success) {
 												resolve(true);
@@ -81,7 +81,6 @@ plugin.postCreate = async function (res) {
 		if (!checkSwitch()) {
 				return res;
 		}
-
 		let { data } = res;
 		let token = data.req.headers.captcha_token;
 		if (token === undefined) {

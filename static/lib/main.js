@@ -35,7 +35,6 @@ $(document)
 								if (!checkHooks(data.options.method, data.options.url)) {
 										return data;
 								}
-								console.log(data)
 								bootbox.dialog({
 										title: '需要完成验证码',
 										message: `<script src="https://www.recaptcha.net/recaptcha/api.js?onload=showCaptcha"></script>
