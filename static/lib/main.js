@@ -1,18 +1,73 @@
 'use strict';
 
-$(document).ready(function () {
-	/*
-		This file shows how client-side javascript can be included via a plugin.
-		If you check `plugin.json`, you'll see that this file is listed under "scripts".
-		That array tells NodeBB which files to bundle into the minified javascript
-		that is served to the end user.
 
-		Some events you can elect to listen for:
+const checkHooks = (method, url) => {
+		const hooks = [{
+				method: 'post',
+				url: '/api/v3/topics'
+		}];
+		if (method) {
+				for (const i in hooks) {
+						if (method === hooks[i].method && url.startsWith(hooks[i].url)) {
+								return true;
+						}
+				}
+		}
+		return false;
+};
 
-		$(document).ready();			Fired when the DOM is ready
-		$(window).on('action:ajaxify.end', function(data) { ... });			"data" contains "url"
-	*/
 
-	console.log('nodebb-plugin-quickstart: loaded');
-	// Note how this is shown in the console on the first load of every page
-});
+$(document)
+		.ready(function () {
+				window.showCaptcha = function () {
+						grecaptcha.render('captcha_send_post', {
+								'sitekey': $('meta[name=antibot_client_key]')
+										.prop('content'),
+								'theme': 'light',
+								'callback': window.finish_captcha,
+						});
+				};
+
+				require(['hooks', 'bootbox'], (hooks, bootbox) => {
+						hooks.on('filter:api.options', (data) => {
+								//method: "post"
+								// url: "/api/v3/topics"
+								if (!checkHooks(data.options.method, data.options.url)) {
+										return data;
+								}
+								console.log(data)
+								bootbox.dialog({
+										title: '需要完成验证码',
+										message: `<script src="https://www.recaptcha.net/recaptcha/api.js?onload=showCaptcha"></script>
+            <div id="captcha_send_post"></div>`,
+										closeButton: false,
+										buttons: {
+												cancel: {
+														label: '取消',
+														className: 'btn-danger',
+														callback: function () {
+																window.finish_captcha(undefined);
+														}
+												}
+										},
+								});
+								return new Promise((resolve, reject) => {
+										window.finish_captcha = function (x) {
+												if (x !== undefined) {
+														resolve(x);
+												}
+												reject();
+												bootbox.hideAll();
+										};
+								}).then((r) => {
+										data.options.headers.captcha_token = r
+										return data;
+								})
+										.catch(() => {
+												console.log("验证码被取消")
+											return data
+										});
+
+						});
+				});
+		});

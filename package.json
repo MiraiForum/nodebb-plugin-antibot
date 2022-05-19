@@ -1,5 +1,5 @@
 {
-  "name": "nodebb-plugin-quickstart",
+  "name": "nodebb-plugin-antibot",
   "version": "0.4.2",
   "description": "A starter kit for quickly creating NodeBB plugins",
   "main": "library.js",
