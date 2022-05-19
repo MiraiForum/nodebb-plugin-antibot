@@ -1,11 +1,11 @@
 {
   "name": "nodebb-plugin-antibot",
   "version": "0.4.2",
-  "description": "A starter kit for quickly creating NodeBB plugins",
+  "description": "发帖验证码插件",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodebb/nodebb-plugin-quickstart"
+    "url": "https://github.com/MiraiForum/nodebb-plugin-antibot"
   },
   "keywords": [
     "nodebb",
@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nodebb/nodebb-plugin-quickstart/issues"
+    "url": "https://github.com/MiraiForum/nodebb-plugin-antibot"
   },
   "readmeFilename": "README.md",
   "nbbpm": {

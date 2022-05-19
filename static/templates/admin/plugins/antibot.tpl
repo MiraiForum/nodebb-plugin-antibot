@@ -3,7 +3,7 @@
 		<div class="col-sm-2 col-xs-12 settings-header">General</div>
 		<div class="col-sm-10 col-xs-12">
 			<p class="lead">
-				反机器人插件设置，本插件使用reCaptcha对更改操作进行验证。可以在权限设置里更改每个组的权限
+				本插件使用reCaptcha对发帖操作进行验证。
 			</p>
 
 			<div class="checkbox">
