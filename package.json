@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-antibot",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "description": "发帖验证码插件",
   "main": "library.js",
   "repository": {

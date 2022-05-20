@@ -19,6 +19,10 @@ const checkHooks = (method, url) => {
 
 $(document)
 		.ready(function () {
+				if (!$('meta[name=antibot_client_key]')
+						.prop('content')) {
+						return;
+				}
 				window.showCaptcha = function () {
 						grecaptcha.render('captcha_send_post', {
 								'sitekey': $('meta[name=antibot_client_key]')
@@ -59,12 +63,12 @@ $(document)
 												bootbox.hideAll();
 										};
 								}).then((r) => {
-										data.options.headers.captcha_token = r
+										data.options.headers['x-captcha-token'] = r;
 										return data;
 								})
 										.catch(() => {
-												console.log("验证码被取消")
-											return data
+												console.log('验证码被取消');
+												return data;
 										});
 
 						});

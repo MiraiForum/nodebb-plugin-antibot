@@ -82,13 +82,13 @@ plugin.postCreate = async function (res) {
 				return res;
 		}
 		let { data } = res;
-		let token = data.req.headers.captcha_token;
+		let token = data.req.headers["x-captcha-token"];
 		if (token === undefined) {
 				throw new Error('请完成验证码');
 		}
 		if (await checkToken(token)) {
 				return res;
 		}
-		throw new Error('请完成验证码');
+		throw new Error('验证失败');
 };
 module.exports = plugin;
