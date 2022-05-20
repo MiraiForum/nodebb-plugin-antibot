@@ -64,18 +64,18 @@ plugin.addAdminNavigation = (header) => {
 		return header;
 };
 
-plugin.hookFooter = (data) => {
-		if (!checkSwitch()) {
-				return data;
-		}
-		let { templateValues } = data;
-		templateValues._header.tags.meta.push({
-				name: 'antibot_client_key',
-				content: plugin_data.client_key
-		});
-
-		return data;
-};
+// plugin.hookFooter = (data) => {
+// 		if (!checkSwitch()) {
+// 				return data;
+// 		}
+// 		let { templateValues } = data;
+// 		templateValues._header.tags.meta.push({
+// 				name: 'antibot_client_key',
+// 				content: plugin_data.client_key
+// 		});
+//
+// 		return data;
+// };
 
 plugin.postCreate = async function (res) {
 		if (!checkSwitch()) {
@@ -91,4 +91,13 @@ plugin.postCreate = async function (res) {
 		}
 		throw new Error('验证失败');
 };
+
+plugin.getScripts = async function(list){
+		if (!checkSwitch()) {
+				return list;
+		}
+		list.push(`https://www.recaptcha.net/recaptcha/enterprise.js?render=${plugin_data.client_key}`);
+		return list;
+}
+
 module.exports = plugin;

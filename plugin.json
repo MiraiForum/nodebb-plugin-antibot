@@ -15,14 +15,13 @@
 	  "hook": "filter:admin.header.build",
 	  "method": "addAdminNavigation"
 	},
-	{
-	  "hook": "filter:middleware.renderFooter",
-	  "method": "hookFooter"
-	},
+
 	{
 	  "hook": "filter:post.create",
 	  "method": "postCreate"
-	}
+	},
+	{"hook": "filter:scripts.get",
+	"method": "getScripts"}
   ],
   "staticDirs": {
 	"static": "./static"
