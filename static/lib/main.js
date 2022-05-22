@@ -23,6 +23,9 @@ $(document)
 						.prop('content')) {
 						return;
 				}
+				if(window.app.uid.reputation > 5) {
+					return;
+				}
 				window.showCaptcha = function () {
 						grecaptcha.render('captcha_send_post', {
 								'sitekey': $('meta[name=antibot_client_key]')

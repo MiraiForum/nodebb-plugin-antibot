@@ -6,6 +6,7 @@ const controllers = require('./lib/controllers');
 const settings = require.main.require('./src/meta/settings');
 const routeHelpers = require.main.require('./src/routes/helpers');
 const request = require('request');
+const user = require.main.require('./src/user');
 const plugin = {};
 
 let plugin_data = {};
@@ -82,6 +83,10 @@ plugin.postCreate = async function (res) {
 				return res;
 		}
 		let { data } = res;
+		let reputation = user.getUsersFields(data.req.uid, ["reputation"])
+		if (reputation > 5) {
+			return res;
+		}
 		let token = data.req.headers["x-captcha-token"];
 		if (token === undefined) {
 				throw new Error('请完成验证码');
