@@ -23,7 +23,7 @@ $(document)
 						.prop('content')) {
 						return;
 				}
-				if(window.app.uid.reputation > 5) {
+				if(window.app.user.reputation > 5) {
 					return;
 				}
 				window.showCaptcha = function () {
