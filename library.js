@@ -5,10 +5,28 @@ const winston = require.main.require('winston');
 const controllers = require('./lib/controllers');
 const settings = require.main.require('./src/meta/settings');
 const routeHelpers = require.main.require('./src/routes/helpers');
+const privsGlobal = require.main.require("./src/privileges/global")
 const request = require('request');
 const plugin = {};
 
 let plugin_data = {};
+
+const hooks = [{
+		method: 'post',
+		url: '/api/v3/topics'
+}];
+
+function checkHooks(method, url) {
+		if (method) {
+				for (const i in hooks) {
+						if (method === hooks[i].method && url.startsWith(hooks[i].url)) {
+								return true;
+						}
+				}
+		}
+		return false;
+}
+
 
 function checkSwitch() {
 		if (plugin_data.switch !== 'on') {
@@ -73,22 +91,34 @@ plugin.hookFooter = (data) => {
 				name: 'antibot_client_key',
 				content: plugin_data.client_key
 		});
-
 		return data;
 };
 
-plugin.postCreate = async function (res) {
+plugin.reqHook = async function(data){
 		if (!checkSwitch()) {
-				return res;
+				return data;
 		}
-		let { data } = res;
-		let token = data.req.headers["x-captcha-token"];
-		if (token === undefined) {
-				throw new Error('请完成验证码');
+		let {req} = data;
+
+		if (req.isAuthenticated() && await privsGlobal.can("antibot:skip",req.user.uid)){
+			return data;
 		}
-		if (await checkToken(token)) {
-				return res;
+		let method = req.method.toLowerCase()
+		let url = req.baseUrl
+		if (checkHooks(method,url)){
+				let token = data.req.headers["x-captcha-token"];
+				if (await checkToken(token)) {
+						return data;
+				}
+				throw new Error('验证失败');
 		}
-		throw new Error('验证失败');
-};
+
+}
+
+plugin.globalPrivileges = async function(data){
+		let {privileges} = data;
+		privileges.set("antibot:skip", { label:  "允许跳过验证码"})
+		return data;
+}
+
 module.exports = plugin;

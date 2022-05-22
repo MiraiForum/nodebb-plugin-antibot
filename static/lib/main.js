@@ -1,11 +1,11 @@
 'use strict';
 
+const hooks = [{
+		method: 'post',
+		url: '/api/v3/topics'
+}];
 
 const checkHooks = (method, url) => {
-		const hooks = [{
-				method: 'post',
-				url: '/api/v3/topics'
-		}];
 		if (method) {
 				for (const i in hooks) {
 						if (method === hooks[i].method && url.startsWith(hooks[i].url)) {
@@ -21,6 +21,9 @@ $(document)
 		.ready(function () {
 				if (!$('meta[name=antibot_client_key]')
 						.prop('content')) {
+						return;
+				}
+				if (app.user.privileges["antibot:skip"]){
 						return;
 				}
 				window.showCaptcha = function () {

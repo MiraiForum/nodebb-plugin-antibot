@@ -8,10 +8,6 @@
 	  "method": "init"
 	},
 	{
-	  "hook": "static:api.routes",
-	  "method": "addRoutes"
-	},
-	{
 	  "hook": "filter:admin.header.build",
 	  "method": "addAdminNavigation"
 	},
@@ -22,6 +18,14 @@
 	{
 	  "hook": "filter:post.create",
 	  "method": "postCreate"
+	},
+	{
+	  "hook": "response:router.page",
+	  "method": "reqHook"
+	},
+	{
+	  "hook": "static:privileges.global.init",
+	  "method": "globalPrivileges"
 	}
   ],
   "staticDirs": {

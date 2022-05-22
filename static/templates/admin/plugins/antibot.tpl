@@ -3,7 +3,7 @@
 		<div class="col-sm-2 col-xs-12 settings-header">General</div>
 		<div class="col-sm-10 col-xs-12">
 			<p class="lead">
-				本插件使用reCaptcha对发帖操作进行验证。
+				本插件使用reCaptcha对发帖操作进行验证。可以在权限设置内设置允许跳过验证码
 			</p>
 
 			<div class="checkbox">
